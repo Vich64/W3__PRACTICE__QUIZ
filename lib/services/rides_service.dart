@@ -20,6 +20,6 @@ class RidesService {
   }
 
   static List<Ride> filterBy({Location? departure, int? seatRequested}) {
-    return [];
+    return availableRides;
   }
 }
