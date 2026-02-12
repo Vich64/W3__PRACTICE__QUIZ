@@ -32,7 +32,7 @@ class _RideLocationPickerState extends State<RideLocationPicker> {
       if (query.isEmpty) {
         location = [];
       } else {
-        location = fakeLocations.where((element) => element.name.toLowerCase()).toList();
+        location = fakeLocations.where((element) => element.name.toLowerCase(.query)).toList();
       }
     });
   }
