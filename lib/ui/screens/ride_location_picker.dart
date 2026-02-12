@@ -32,7 +32,7 @@ class _RideLocationPickerState extends State<RideLocationPicker> {
       if (query.isEmpty) {
         location = [];
       } else {
-        location = fakeLocations.where((element) => element.name.toLowerCase().contains(query.toLowerCase())).toList();
+        location = fakeLocations.where((element) => element.name.toLowerCase()).toList();
       }
     });
   }
@@ -55,7 +55,7 @@ class _RideLocationPickerState extends State<RideLocationPicker> {
                 controller: searchController,
                 onChanged: filterLocation,
                 decoration: InputDecoration(
-                  hintText: 'Station Road or The Bridge Cafe',
+                  hintText: 'Station Road or The Bridge Cafee',
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 30),
                   prefixIcon: IconButton(
