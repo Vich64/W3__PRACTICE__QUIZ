@@ -1,4 +1,22 @@
 import 'package:flutter/material.dart';
+abstract class ButtonListener {
+  void onClickButton {int newButton};
+}
+
+class ButtonStation {
+  int clickButton;
+  final List<ButtonListener> _listener = [];
+
+  ButtonStation({this.clickButton = 0});
+  void addListener
+}
+
+
+
+
+
+
+
 
 void main() {
   runApp(
