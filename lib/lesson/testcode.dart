@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 abstract class ButtonListener {
-  void onClickButton {int newButton};
+  void onClickButton (int newButton);
 }
 
 class ButtonStation {
@@ -8,11 +8,37 @@ class ButtonStation {
   final List<ButtonListener> _listener = [];
 
   ButtonStation({this.clickButton = 0});
-  void addListener.addListener(listener)
+  void addListener(ButtonListener listener) {
+    _listener.add(listener);
+  }
+
+  void setButton (int setButton) {
+    if (setButton != clickButton){
+      clickButton = setButton;
+      _notifyListener();
+    }
+  }
+
+  void _notifyListener() {
+    for (ButtonListener listener in _listener){
+      listener.onClickButton(clickButton);
+    }
+  }
 }
 
+class Button extends ButtonListener {
+    Button(this.myButtonStation) {
+      myButtonStation.addListener(this);
+    }
 
-
+    final ButtonStation myButtonStation;
+    
+      @override
+      void onClickButton(int newButton) {
+    // TODO: implement onClickButton
+        print("Button pressed");
+    }
+}
 
 
 
@@ -27,11 +53,6 @@ void main() {
   );
 }
 
-enum CardType { red, blue }
-
-///
-/// Handle the number of taps per color
-///
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -39,97 +60,35 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
-  int redTapCount = 0;
-  int blueTapCount = 0;
+class _HomeState extends State<Home> implements ButtonListener {
+  late ButtonStation buttonStation;
+  int counter = 0;
 
-  void _incrementRedTapCount() {
-    setState(() {
-      redTapCount++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    buttonStation = ButtonStation();
+    buttonStation.addListener(this);
   }
 
-  void _incrementBlueTapCount() {
-    setState(() {
-      blueTapCount++;
-    });
+  void _pressButton() {
+    counter++;
+    buttonStation.setButton(counter);
+  }
+
+  @override
+  void onClickButton(int newButton) {
+    print("Button pressed. Current value: $newButton");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        StatisticsScreen(blueTaps: blueTapCount, redTaps: redTapCount),
-        ColorTap(
-          type: CardType.red,
-          onTap: _incrementRedTapCount,
-          tapCount: redTapCount,
-        ),
-        ColorTap(
-          type: CardType.blue,
-          onTap: _incrementBlueTapCount,
-          tapCount: blueTapCount,
-        ),
-      ],
-    );
-  }
-}
-
-class ColorTap extends StatelessWidget {
-  final CardType type;
-  final int tapCount;
-  final VoidCallback onTap;
-
-  const ColorTap({
-    super.key,
-    required this.type,
-    required this.tapCount,
-    required this.onTap,
-  });
-
-  Color get backgroundColor => type == CardType.red ? Colors.red : Colors.blue;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        width: double.infinity,
-        height: 100,
-        child: Center(
-          child: Text(
-            'Taps: $tapCount',
-            style: TextStyle(fontSize: 24, color: Colors.white),
-          ),
-        ),
+    return Center(
+      child: ElevatedButton(
+        onPressed: _pressButton,
+        child: const Text("Touch me"),
       ),
     );
   }
 }
 
-class StatisticsScreen extends StatelessWidget {
-  final int redTaps;
-  final int blueTaps;
-
-  const StatisticsScreen({
-    super.key,
-    required this.redTaps,
-    required this.blueTaps,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('Red Taps: $redTaps', style: TextStyle(fontSize: 24)),
-        Text('Blue Taps: $blueTaps', style: TextStyle(fontSize: 24)),
-      ],
-    );
-  }
-}

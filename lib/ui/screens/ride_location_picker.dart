@@ -11,7 +11,6 @@ class RideLocationPicker extends StatefulWidget {
 }
 
 class _RideLocationPickerState extends State<RideLocationPicker> {
-  
   final TextEditingController searchController = TextEditingController();
   List<Location> location = [];
 
@@ -32,7 +31,12 @@ class _RideLocationPickerState extends State<RideLocationPicker> {
       if (query.isEmpty) {
         location = [];
       } else {
-        location = fakeLocations.where((element) => element.name.toLowerCase(.query)).toList();
+        location = fakeLocations
+            .where(
+              (element) =>
+                  element.name.toLowerCase().contains(query.toLowerCase()),
+            )
+            .toList();
       }
     });
   }
@@ -48,22 +52,25 @@ class _RideLocationPickerState extends State<RideLocationPicker> {
               height: 45,
               decoration: BoxDecoration(
                 color: BlaColors.greyLight,
-                borderRadius: BorderRadius.circular(10)
+                borderRadius: BorderRadius.circular(10),
               ),
               alignment: Alignment.center,
-              child:  TextField(
+              child: TextField(
                 controller: searchController,
                 onChanged: filterLocation,
                 decoration: InputDecoration(
                   hintText: 'Station Road or The Bridge Cafee',
                   border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 30),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 30,
+                  ),
                   prefixIcon: IconButton(
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ),
-              )
+              ),
             ),
             Expanded(
               child: ListView.builder(
@@ -73,12 +80,12 @@ class _RideLocationPickerState extends State<RideLocationPicker> {
                   return ListTile(
                     title: Text(locationList.name),
                     subtitle: Text(locationList.country.name),
-                    trailing: Icon(Icons.arrow_forward_rounded, size: 20,),
+                    trailing: Icon(Icons.arrow_forward_rounded, size: 20),
                     onTap: () {
                       Navigator.of(context).pop(locationList);
                     },
                   );
-                }
+                },
               ),
             ),
           ],
