@@ -18,6 +18,7 @@ class RidePrefsScreen extends StatelessWidget {
 
   void onRidePrefSelected(RidePref ridePref) {
     // TODO
+    RidePrefsService.selectedRidePref = ridePref;
   }
 
   @override
@@ -52,7 +53,11 @@ class RidePrefsScreen extends StatelessWidget {
               // 2 - THE FORM
               RidePrefForm(initRidePref: RidePrefsService.selectedRidePref),
               // BLA - 002 - Implement BlaButton
-              BlaButton(label: 'Search', backgroundColor: BlaColors.primary ,textColor: Colors.white,),
+              BlaButton(
+                label: 'Search',
+                backgroundColor: BlaColors.primary,
+                textColor: Colors.white,
+              ),
               SizedBox(height: BlaSpacings.m),
               // 3 - THE HISTORY
               _buildHistory(),

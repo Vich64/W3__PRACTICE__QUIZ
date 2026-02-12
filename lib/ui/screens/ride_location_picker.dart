@@ -12,7 +12,7 @@ class RideLocationPicker extends StatefulWidget {
 
 class _RideLocationPickerState extends State<RideLocationPicker> {
   final TextEditingController searchController = TextEditingController();
-  List<Location> location = [];
+  List<Location> location = fakeLocations;
 
   @override
   void initState() {
