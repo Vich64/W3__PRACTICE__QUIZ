@@ -8,7 +8,7 @@ class ButtonStation {
   final List<ButtonListener> _listener = [];
 
   ButtonStation({this.clickButton = 0});
-  void addListener
+  void addListener.addListener(listener)
 }
 
 
